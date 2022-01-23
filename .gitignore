@@ -2,4 +2,9 @@
 .idea
 *.exe
 *.pdb
+debug
+Cargo.lock
+Cargo.toml
+target
+
 
