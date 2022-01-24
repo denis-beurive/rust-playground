@@ -5,6 +5,7 @@ This repository contains notes about the Rust programming language.
 # Installation notes
 
 * [Installation notes for Windows](doc/installation-windows.md)
+* [Installation notes for Linux](doc/installation-linux.md)
 
 # Cargo
 
