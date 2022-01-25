@@ -1,6 +1,24 @@
-# Variables
+# Variables and references
 
-## Memory mapping
+## Definition
+
+* **Variable**: a variable is an alias for a value. it designates a value. 
+* **Reference**:   
+  * For a scalar value (stored in the stack), a reference to a variable is the address of the memory location that
+    contains the value.
+  * For an object value (stored in the heap), a reference to a variable is the address of the memory location that
+    contains the address (in the heap) where the value is stored.
+
+> **Watch out**
+>
+> A variable **always** designates a value. However, a _reference_ (to a variable) does not refer to the same thing
+> depending on the nature of the value! For a scalar value, it refers to the memory location used to store the value
+> (in the stack). For an object value, it refers to the memory location that contains the address of the memory
+> location where the value is stored (in the heap).
+> 
+> ![](images/var-ref.png)
+
+## Illustration in practice
 
 ### Stack storage (scalar value)
 
@@ -20,21 +38,22 @@ We use GDB to look at the process memory. We set a breakpoint at line 4, and the
 ```bash
 $ gdb target/debug/memory-management 
 ...
-(gdb) break main.rs:4
+(gdb) b 4
 Breakpoint 1 at 0x8b36: file src/main.rs, line 4.
 (gdb) r
 Starting program: /home/denis/Documents/github/rust-playground/memory-management/target/debug/memory-management 
 [Thread debugging using libthread_db enabled]
 Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-var1: "10" (0x7fffffffdcd4)
+var1: "10" (0x7fffffffdc84)
 
 Breakpoint 1, memory_management::main () at src/main.rs:4
-4       println!("The end");
-(gdb) x 0x7fffffffdcd4
-0x7fffffffdcd4: 0x0000000a
+4	       println!("The end");
+(gdb) x /wd 0x7fffffffdc84
+0x7fffffffdc84:	10
+
 ```
 
-`&var1` = `0x7fffffffdcd4` -> `10`
+`&var1` = `0x7fffffffdc84` -> `10`
 
 ![](images/rust-mem2.png)
 
@@ -54,30 +73,28 @@ $ cat -n src/main.rs
 We use GDB to look at the process memory. We set a breakpoint at line 4, and then we look at the content of the memory.
 
 ```bash
-$ gdb target/debug/memory-management
+branch: [master]$ gdb target/debug/memory-management 
 ...
-(gdb) break main.rs:4
+(gdb) b 4
 Breakpoint 1 at 0xa45f: file src/main.rs, line 4.
-(gdb) run
-Starting program: /home/denis/Documents/github/rust-playground/memory-management/target/debug/memory-management
+(gdb) r
+Starting program: /home/denis/Documents/github/rust-playground/memory-management/target/debug/memory-management 
 [Thread debugging using libthread_db enabled]
 Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-var1: "aa" (0x7fffffffdcb0)
+var1: "aa" (0x7fffffffdc60)
 
 Breakpoint 1, memory_management::main () at src/main.rs:4
-4       println!("The end");
-(gdb) print var1
-$1 = alloc::string::String {vec: alloc::vec::Vec<u8, alloc::alloc::Global> {buf: alloc::raw_vec::RawVec<u8, alloc::alloc::Global> {ptr: core::ptr::unique::Unique<u8> {pointer: 0x5555555a4ba0, _marker: core::marker::PhantomData<u8>}, cap: 2, alloc: alloc::alloc::Global}, len: 2}}
-(gdb) x 0x7fffffffdcb0
-0x7fffffffdcb0: 0x00005555555a4ba0
-(gdb) x 0x5555555a4ba0
-0x5555555a4ba0: 0x0000000000006161
+4	       println!("The end");
+(gdb) x/gx 0x7fffffffdc60
+0x7fffffffdc60:	0x00005555555a4ba0
+(gdb) x/wx 0x00005555555a4ba0
+0x5555555a4ba0:	0x00006161
 ```
 
 We can see that:
 
-* The value of `&var1` is `0x7fffffffdcb0`.
-* The content of the memory at the address `0x7fffffffdcb0` is `0x00005555555a4ba0`.
+* The value of `&var1` is `0x7fffffffdc60`.
+* The content of the memory at the address `0x7fffffffdc60` is `0x00005555555a4ba0`.
 * And the content of the memory at the address `0x00005555555a4ba0` is `0x0000000000006161`.
   You recognize the string `"aa"` (see the [UTF-8 encoding table and Unicode characters](https://www.charset.org/utf-8)).
 
