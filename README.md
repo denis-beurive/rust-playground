@@ -17,5 +17,7 @@ This repository contains notes about the Rust programming language.
 
 # Notes
 
-* [Variables](doc/variables.md)
+* [Variables and references](doc/variables.md)
+* [loops](doc/loop.md)
+
 

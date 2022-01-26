@@ -222,10 +222,10 @@ We can see that when `var2` takes ownership of `var1`'s value (`"aa"`), the valu
 > Please note that `var1` is immutable. The immutability is enforced at compile time (not at runtime).
 
 ## Immutability vs constant
-
-* **Immutable variables** can be assigned values that cannot be evaluated at build time.
-  That is, values that can only be evaluated at compile time (such as the return of a function, for example).
+ 
 * **Constants** must be assigned values that are defined at build time.
+* **Immutable variables** can be assigned values that cannot be evaluated at build time.
+  That is, values that can only be evaluated at runtime (such as the return of a function, for example).
 
 ## Mutability vs shadowing
 
@@ -252,3 +252,28 @@ fn main() {
 }
 ```
 
+## Reference to a mutable variable
+
+Synopsys:
+
+```rust
+let mut n = 0;
+fn run(x: &mut i32) { ... }
+run(&mut n);
+```
+
+Illustration:
+
+```rust
+fn main() {
+
+    fn rerun(n: &mut i32) {
+        let var = *n * 2;
+        println!("n: {}, var: {} (&var: {:p})", *n, var, &var);
+        *n = *n+1;
+    }
+
+    let mut n = 0;
+    while n < 4 { rerun(&mut n); }
+}
+```
