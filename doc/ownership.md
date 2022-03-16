@@ -1,6 +1,6 @@
-# Onership
+# Ownership
 
-## Ownership: move or not move ?
+## Ownership: to move or not to move ?
 
 A value is "owned" by a variable. 
 

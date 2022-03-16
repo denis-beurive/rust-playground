@@ -26,3 +26,11 @@ Thus, you need to make sure that this path is added to the `PATH` environment va
 * **Dos**: `echo %PATH%`
 
 Make sure that you can execute the linker: execute the command `link` (from the Powershell or Dos console).
+
+# Updating the compiler chain
+
+```bash
+rustup update
+```
+
+> See [The Rust Programming Language](https://doc.rust-lang.org/book/ch01-01-installation.html) book.
