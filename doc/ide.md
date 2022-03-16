@@ -4,5 +4,5 @@ For IntelIJ IDEs, you have this excellent plugin: [Rust](https://plugins.jetbrai
 
 > I've tested it on CLion.
 
-[](images/intelij-plugin.png)
+![](images/intelij-plugin.png)
 
