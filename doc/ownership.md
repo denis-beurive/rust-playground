@@ -5,13 +5,15 @@
 A value is "owned" by a variable. 
 
 When a variable value is assigned to another variable (the target variable),
-the ownership of the value _may be moved_ (to the target variable), _or not_.
+the ownership of the value _may be moved_ (to the target variable), **or not**.
 
 * If the value can be copied, then it is copied to the target variable.
   Scalar values (integers...) can be copied. Objects can be copied if they 
   implement the method `Copy`. Please note that the class `String` does not 
   implement the method `Copy`.
 * Otherwise, the ownership of the value is moved (to the target variable).
+
+> See the section "Assignment and ownership" of document [Variables and references](variables.md).
 
 ## Illustrations
 
@@ -30,7 +32,7 @@ fn main() {
     let s2 = s1; // The class String does not implement the method "Copy".
                  // Thus, the ownership of s1 value is moved to s2.
                  // Conclusion: s1 does not own any more value.
-                 // Hence, you s1 is not usable.
+                 // Hence, s1 is not usable anymore.
     println!("s2: {}, &s2: {}", s1, &s1); // => error.
     println!("s1: {}, &s1: {}", s2, &s2);
 }
@@ -67,7 +69,6 @@ fn double_i32(x: i32) -> i32 {
 }
 
 fn double_string_value(x: String) -> String {
-    // Warning: we clone the value referenced by x.
     x + " * 2"
 }
 
@@ -86,7 +87,7 @@ fn main() {
     // The class String does not implement the method "Copy".
     let s1 = String::from("100");
     let s2 = double_string_ref(&s1);
-    let s3 = double_string_value(s1.clone());
+    let s3 = double_string_value(s1.clone()); // Please note the use of "clone()".
     println!("s1: {}", s1);
     println!("s2: {}", s2);
     println!("s3: {}", s3);

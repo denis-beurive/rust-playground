@@ -21,5 +21,7 @@ This repository contains notes about the Rust programming language.
 * [Variables and references](doc/variables.md)
 * [Ownership](doc/ownership.md)
 * [Loops](doc/loop.md)
+* [Tuples](doc/tuple.md)
+* [Arrays](doc/array.md)
 
 

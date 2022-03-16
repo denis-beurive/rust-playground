@@ -2,7 +2,7 @@
 
 ## Definition
 
-* **Variable**: a variable is an alias for a value. it designates a value. 
+* **Variable**: a variable is an alias for a value. It designates a value. 
 * **Reference**:   
   * For a scalar value (stored in the stack), a reference to a variable is the address of the memory location that
     contains the value.
@@ -50,7 +50,6 @@ Breakpoint 1, memory_management::main () at src/main.rs:4
 4	       println!("The end");
 (gdb) x /wd 0x7fffffffdc84
 0x7fffffffdc84:	10
-
 ```
 
 `&var1` = `0x7fffffffdc84` -> `10`
@@ -104,11 +103,11 @@ In summary:
 
 ![](images/rust-mem1.png)
 
-## Moving variable
+## Assignment and ownership
 
-### Stack storage (scalar value)
+### Stack storage: no tacking of ownership 
 
-Let's consider this Rust code:
+Let's consider this Rust [code](src/mm1.rs):
 
 ```bash
 $ cat -n src/main.rs
@@ -128,40 +127,42 @@ We use GDB to look at the process memory. We set breakpoints at lines 4 and 7, a
 $ gdb target/debug/memory-management
 ...
 (gdb) b 4
-Breakpoint 1 at 0x8b42: file src/main.rs, line 4.
+Breakpoint 1 at 0x7fa2: file src/main.rs, line 4.
 (gdb) b 7
-Breakpoint 2 at 0x8c6f: file src/main.rs, line 7.
+Breakpoint 2 at 0x80cf: file src/main.rs, line 7.
 (gdb) r
-Starting program: /home/denis/Documents/github/rust-playground/memory-management/target/debug/memory-management
+Starting program: /home/denis/Documents/github/rust-playground/memory-management/target/debug/memory-management 
 [Thread debugging using libthread_db enabled]
 Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-var1: "10" (0x7fffffffdbcc)
+var1: "10" (0x7fffffffd9cc)
 
 Breakpoint 1, memory_management::main () at src/main.rs:4
-4	    println!("Pause");
-(gdb) x/xw 0x7fffffffdbcc
-0x7fffffffdbcc:	0x0000000a
+4           println!("Pause");
+(gdb) x/xd 0x7fffffffd9cc
+0x7fffffffd9cc: 10
 (gdb) c
 Continuing.
 Pause
-var2: "10" (0x7fffffffdc6c)
+var2: "10" (0x7fffffffda6c)
 
 Breakpoint 2, memory_management::main () at src/main.rs:7
-7	    println!("The end");
-(gdb) x/xw 0x7fffffffdc6c
-0x7fffffffdc6c:	0x0000000a
-(gdb)
+7           println!("The end");
+(gdb) x/xd 0x7fffffffda6c
+0x7fffffffda6c: 10
+(gdb) 
+
 ```
 
-We can see that when `var2` takes ownership of `var1`'s value (`"aa"`), the value's address (`0x00005555555a4ba0`) is assigned to `var2`.
+The value of `var1` is just assigned to `var2`. Each variable keeps its own copy of the value.
+**In other words: `var2` does not take ownership of `var1` value.** 
+
+> If you try to use the value `var1` below the line number `5`, then it is perfectly fine!
 
 ![](images/rust-mem4.png)
 
-> Please note that `var1` is immutable. The immutability is enforced at compile time (not at runtime).  
+### Heap allocation: taking of ownership
 
-### Heap allocation
-
-Let's consider this Rust code:
+Let's consider this Rust [code](src/mm2.rs):
 
 ```bash
 $ cat -n src/main.rs
@@ -215,11 +216,11 @@ $1 = alloc::string::String {vec: alloc::vec::Vec<u8, alloc::alloc::Global> {buf:
 $2 = alloc::string::String {vec: alloc::vec::Vec<u8, alloc::alloc::Global> {buf: alloc::raw_vec::RawVec<u8, alloc::alloc::Global> {ptr: core::ptr::unique::Unique<u8> {pointer: 0x5555555a4ba0, _marker: core::marker::PhantomData<u8>}, cap: 2, alloc: alloc::alloc::Global}, len: 2}}
 ```
 
-We can see that when `var2` takes ownership of `var1`'s value (`"aa"`), the value's address (`0x00005555555a4ba0`) is assigned to `var2`. 
+We can see that when `var2` **takes ownership** of `var1`'s value (`"aa"`), the value's address (`0x00005555555a4ba0`) is assigned to `var2`.
+
+> If you try to use the value `var1` below the line number `5`, then you will get an error!
 
 ![](images/rust-mem3.png)
-
-> Please note that `var1` is immutable. The immutability is enforced at compile time (not at runtime).
 
 ## Immutability vs constant
  
@@ -234,6 +235,8 @@ are of the same types_).
 
 When you shadow a variable, you create a new variable with the same name (as the shadowed one).
 The type of the new variable may be different from the previous one.
+
+Illustration with [this code](src/shadowing.rs):
 
 ```rust
 fn main() {

@@ -20,7 +20,7 @@
           <y:Geometry height="30.0" width="185.68320000000003" x="117.31679999999996" y="112.0"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle hasColor="false" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="right" autoSizePolicy="node_width" fontFamily="Courier 10 Pitch" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.8840970993042" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="185.68320000000003" x="0.0" xml:space="preserve" y="6.0579514503479">&amp;var1 = 0x7fffffffdbcc<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+          <y:NodeLabel alignment="right" autoSizePolicy="node_width" fontFamily="Courier 10 Pitch" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.8840970993042" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="185.68320000000003" x="0.0" xml:space="preserve" y="6.0579514503479">&amp;var1 = 0x7fffffffd9cc<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
           <y:Shape type="rectangle"/>
         </y:ShapeNode>
       </data>
@@ -42,7 +42,7 @@
           <y:Geometry height="30.0" width="185.6832" x="117.31679999999997" y="39.72"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle hasColor="false" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="right" autoSizePolicy="node_width" fontFamily="Courier 10 Pitch" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.8840970993042" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="185.6832" x="0.0" xml:space="preserve" y="6.0579514503479">&amp;var2 = 0x7fffffffdc6c<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+          <y:NodeLabel alignment="right" autoSizePolicy="node_width" fontFamily="Courier 10 Pitch" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.8840970993042" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="185.6832" x="0.0" xml:space="preserve" y="6.0579514503479">&amp;var2 = 0x7fffffffda6c<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
           <y:Shape type="rectangle"/>
         </y:ShapeNode>
       </data>
