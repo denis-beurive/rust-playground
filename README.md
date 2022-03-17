@@ -23,5 +23,6 @@ This repository contains notes about the Rust programming language.
 * [Loops](doc/loop.md)
 * [Tuples](doc/tuple.md)
 * [Arrays](doc/array.md)
+* [Closure / anonymous functions](doc/closure.md)
 
 

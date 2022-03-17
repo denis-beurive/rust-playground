@@ -1,17 +1,108 @@
-# Ownership
+# Ownership / transfer / borrow
 
-## Ownership: to move or not to move ?
+## Variables and ownership of values
 
-A value is "owned" by a variable. 
+A value is owned by a variable <=> A variable has ownership of a value.
 
-When a variable value is assigned to another variable (the target variable),
-the ownership of the value _may be moved_ (to the target variable), **or not**.
+## Transfer of ownership of value
 
-* If the value can be copied, then it is copied to the target variable.
+A value _may be_ transferred (_if it cannot be implicitly copied_) from a variable to another variable
+<=> the ownership of a value _may be_ transferred from a variable to another variable.
+
+## References 
+
+References allow you to refer to some value **without taking ownership** of it.
+With references we "borrow" the value of a variable.
+
+> Please note that: at any given time, you can have either one mutable reference or any number of immutable references 
+> (see [the rules of references](https://doc.rust-lang.org/stable/book/ch04-02-references-and-borrowing.html#the-rules-of-references)).
+
+The [code](src/ownership2.rs) below illustrates the process of borrowing the value of a variable:
+
+```rust
+fn main() {
+    let mut s: String = String::from("10");
+    // Here, we borrow the value owned by s1.
+    let s_ref: &mut String = &mut s;
+    s_ref.push_str(" * 2");
+    // It is OK to use s1 since its value has not been transferred (only borrowed).
+    println!("s: {}", s);
+}
+```
+
+At any given time, you can have any number of immutable references.
+The [code](src/ownership3.rs) below illustrates this:
+
+```rust
+fn main() {
+    let s: String = String::from("10");
+    // Here, we borrow the value owned by s1.
+    // Please note that the references are not mutable (they cannot be used to change the borrowed value).
+    let s_ref1: &String = &s;
+    let s_ref2: &String = &s;
+
+    // It is OK to use s1 since its value has not been transferred (only borrowed).
+    println!("s: {}", s);
+    println!("s_ref1: {}", s_ref1);
+    println!("s_ref2: {}", s_ref2);
+}
+```
+
+At any given time, relatively to a given variable, you can have either one mutable reference or
+any number of immutable references.
+
+> Thus, within a given scope, relatively to a given variable:
+> 
+> once you've declared an immutable reference, all previously declared mutable references are
+> invalidated (_once and for all_).
+>
+> once you've declared a mutable reference, all previously declared immutable references are
+> invalidated (_once and for all_).
+
+The [code](src/ownership5.rs) below illustrates this:
+
+```rust
+fn main() {
+  let mut s1: String = String::from("10");
+
+  // ----------------------------------------------------------------------------
+  // At any given time, you can have either one mutable reference or any number
+  // of immutable references.
+  // ----------------------------------------------------------------------------
+
+  let s_ref1: &mut String = &mut s1;
+  (|s: &String| { println!("s: {}", s); })(s_ref1);
+
+  // We declare an immutable reference. But remember: at any given time, you
+  // can have either one mutable reference or any number of immutable references.
+  // Therefore, from this point, the previously mutable reference (s_ref1) becomes
+  // invalid.
+
+  let s_ref2: &String = &s1;
+  (|s: &String| { println!("s: {}", s); })(s_ref2);
+  // (|s: &mut String| { println!("s: {}", s); })(s_ref1); // This would generate an error.
+
+  // OK, let define another mutable reference. But remember: at any given time,
+  // you can have either one mutable reference or any number of immutable references.
+  // Therefore, from this point, the previously immutable reference (s_ref2) becomes
+  // invalid. Please note that s_ref1 has been invalidated (once and for all).
+  let s_ref3: &mut String = &mut s1;
+  (|s: &mut String| { println!("s: {}", s); })(s_ref3);
+  (|s: &mut String| { println!("s: {}", s); })(&mut s1);
+  // (|s: &String| { println!("s: {}", s); })(s_ref2); // This would generate an error.
+}
+```
+
+## Ownership: moved/transferred or not ?
+
+When a variable value is assigned to another variable (the target variable), the ownership of the value
+_may be_ moved - or transferred - (to the target variable), **or not**.
+
+* If the value can be implicitly copied, then it is copied to the target variable.
   Scalar values (integers...) can be copied. Objects can be copied if they 
   implement the method `Copy`. Please note that the class `String` does not 
   implement the method `Copy`.
-* Otherwise, the ownership of the value is moved (to the target variable).
+* Otherwise, the ownership of the value is moved - or transferred - to the target variable.
 
 > See the section "Assignment and ownership" of document [Variables and references](variables.md).
 
@@ -19,43 +110,54 @@ the ownership of the value _may be moved_ (to the target variable), **or not**.
 
 ### Use case 1: simple code
 
+The [code](src/ownership1.rs) below illustrates the transfer of ownership.
+
 ```rust
 fn main() {
-    // n1 and n2 are integers (scalars).
-    let n1: i32 = 10;
-    let n2 = n1;
-    println!("n1: {}, &n1: {:p}", n1, &n1);
-    println!("n2: {}, &n2: {:p}", n2, &n2); // the value of n1 is copied to n2.
+  // n1 and n2 are integers (scalars).
+  let n1: i32 = 10;
+  let n2 = n1;
+  // Because n1 and n2 values are scalars, the assignment of n1 to n2 will trigger the copy
+  // of the value of n1 (that is: 10) to n2. Thus, there is no transfer of ownership of the value.
+  // At the end, you get 2 values assigned to 2 variables.
+  println!("n1: {}, &n1: {:p}", n1, &n1);
+  println!("n2: {}, &n2: {:p}", n2, &n2); // the value of n1 is copied to n2.
 
-    // s1 and s2 are instances of String.
-    let s1: String = String::from("test");
-    let s2 = s1; // The class String does not implement the method "Copy".
-                 // Thus, the ownership of s1 value is moved to s2.
-                 // Conclusion: s1 does not own any more value.
-                 // Hence, s1 is not usable anymore.
-    println!("s2: {}, &s2: {}", s1, &s1); // => error.
-    println!("s1: {}, &s1: {}", s2, &s2);
+  // s1 and s2 are instances of String.
+  let s1: String = String::from("test");
+  let s2 = s1;
+  // The class String does not implement the method "Copy".
+  // Thus, it is not possible to (implicitly) copy the value of s1 to s2.
+  // Hence, the ownership of the value "test" is transferred from s1 to s2.
+  // Conclusion: s1 does not own any more value.
+  // Hence, s1 is not usable anymore.
+  // At the end, you get one (and only one) value (that is: "test"). And this value is
+  // owned by s2 (exclusively).
+  println!("s2: {}, &s2: {}", s1, &s1); // => error (s1 does not own any value).
+  println!("s1: {}, &s1: {}", s2, &s2);
 }
 ```
 
 If you try to compile:
 
 ```bash
-$ cargo run
-   Compiling memory-management v0.1.0 (/home/denis/Documents/github/rust-playground/memory-management)
+$ cargo build
+   Compiling variables v0.1.0 (/home/denis/Documents/github/rust-playground/variables)
 error[E0382]: borrow of moved value: `s1`
-  --> src/main.rs:14:33
+  --> src/main.rs:21:33
    |
-9  |     let s1: String = String::from("test");
+12 |     let s1: String = String::from("test");
    |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
-10 |     let s2 = s1; // The class String does not implement the method "Copy".
+13 |     let s2 = s1;
    |              -- value moved here
 ...
-14 |     println!("s2: {}, &s2: {}", s1, &s1); // => error.
+21 |     println!("s2: {}, &s2: {}", s1, &s1); // => error (s1 does not own any value).
    |                                 ^^ value borrowed here after move
+   |
+   = note: this error originates in the macro `$crate::format_args_nl` (in Nightly builds, run with -Z macro-backtrace for more info)
 
 For more information about this error, try `rustc --explain E0382`.
-error: could not compile `memory-management` due to previous error
+error: could not compile `variables` due to previous error
 ```
 
 ### Use case 2: using functions
