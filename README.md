@@ -24,5 +24,5 @@ This repository contains notes about the Rust programming language.
 * [Tuples](doc/tuple.md)
 * [Arrays](doc/array.md)
 * [Closure / anonymous functions](doc/closure.md)
-
+* [Enums](doc/enum.md)
 
