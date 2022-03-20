@@ -16,14 +16,11 @@ enum NumColor {
     Unknown
 }
 
-enum EnumUnit { Variant1, Variant2 }
-enum EnumTuple { Variant1(u8, bool), Variant2(u16, &'static str), Other }
-enum EnumStruct { Variant1{a: u8, b: bool}, Other }
-
 // Enums with associated functions and methods.
 enum Date {
     French(u8, u8, u16), // DD, MM, YYYY
-    Us(u16, u8, u8) // YYYY, MM, DD
+    Us(u16, u8, u8), // YYYY, MM, DD
+    Generic{year: u16, month: u8, day: u8, tz:&'static str}
 }
 
 impl Date {
@@ -31,6 +28,9 @@ impl Date {
         match self {
             Date::French(d, m, y) => { return format!("{}/{}/{}", d, m, y) }
             Date::Us(y, m, d) =>  { return format!("{}/{}/{}", y, m, d) }
+            Date::Generic {year:y, month:m, day:d, tz:tz} => {
+                return format!("{}/{}/{} {}", y, m, d, tz)
+            }
         }
     }
 
@@ -39,25 +39,14 @@ impl Date {
         let data: (u16, u8, u8) = match self {
             Date::French(d, m, y) => { (*y, *m, *d) },
             Date::Us(y, m, d) =>  { (*y, *m, *d) }
+            Date::Generic {year:y, month:m, day:d, tz:tz} => {
+                (*y, *m, *d)
+            }
         };
 
         return format!("{}{}{}", data.0, data.1, data.2)
     }
 
-    fn compare(d1: Date, d2: Date) -> bool {
-        let data1: (u16, u8, u8) = match d1 {
-            Date::French(d, m, y) => { (*y, *m, *d) },
-            Date::Us(y, m, d) =>  { (*y, *m, *d) }
-        };
-        let data2: (u16, u8, u8) = match d2 {
-            Date::French(d, m, y) => { (*y, *m, *d) },
-            Date::Us(y, m, d) =>  { (*y, *m, *d) }
-        };
-
-        return data1.0 == data2.0 &&
-            data1.1 == data2.1 &&
-            data1.2 == data2.2
-    }
 }
 
 
@@ -94,12 +83,28 @@ fn test_enum_with_variant_values() {
 
 fn test_enum_with_impl() {
     let date1 = Date::French(10, 1, 2022);
-    let date1 = Date::Us(2022, 10, 1);
     println!("Date: {} / {}", date1.to_str(), date1.iso());
-    if Date::compare(date1, date2) {
-        println!("Dates are identical")
-    }
+}
 
+fn test_matches() {
+    let date1 = Date::French(10, 1, 2022);
+    // You cannot get the variant values.
+    if matches!(date1, Date::French(_, _, y) if y > 2000) {
+        println!("This is a French date > 2000");
+    }
+}
+
+fn test_if_let() {
+    let date1 = Date::French(10, 1, 2022);
+    // You can get the variant values.
+    let year:u16;
+    if let Date::French(d, m, y) = date1 {
+        println!("This is a French date > 2000 {}/{}/{}", d, m, y);
+        year = y;
+    } else {
+        year = 0;
+    }
+    println!("year = {}", year);
 }
 
 
@@ -107,4 +112,6 @@ fn main() {
     test_simple_enum();
     test_enum_with_variant_values();
     test_enum_with_impl();
+    test_matches();
+    test_if_let();
 }

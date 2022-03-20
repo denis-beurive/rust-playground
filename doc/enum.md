@@ -13,6 +13,13 @@ enum EnumStruct { Variant1{a: u8, b: bool}, Other }
 > Please note that, because patterns must be STATICALLY defined, you should use "string literals"
 > (`&'static str`) instead of String instances as variants values. That is: `Variant2(u16, &'static str)`.
 
+## Get value from variant
+
+
+
+## Testing variant
+
+
 ## Associated functions and methods
 
 ```rust
