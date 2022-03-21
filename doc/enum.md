@@ -168,7 +168,7 @@ fn main() {
 > Please note that :
 > 
 > * using `matches!`, you cannot capture the variants' values.
-> * this example manipulates struct variants. But this technic also applies to Unit and Tuple variants.
+> * this example manipulates Struct variants. But this technic also applies to Unit and Tuple variants.
 
 ## Associated functions and methods
 
