@@ -25,4 +25,5 @@ This repository contains notes about the Rust programming language.
 * [Arrays](doc/array.md)
 * [Closure / anonymous functions](doc/closure.md)
 * [Enums](doc/enum.md)
-
+* [Match and guards](doc/match.md)
+* [Option](doc/option.md)
