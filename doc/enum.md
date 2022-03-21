@@ -21,7 +21,7 @@ enum EnumStruct { Variant1{a: u8, b: bool}, Other }
 
 ## Get value from variant
 
-## Unit variant
+### Unit variant
 
 The example [here](src/enum1.rs)
 
@@ -56,7 +56,7 @@ fn main() {
 }
 ```
 
-## Tuple variant
+### Tuple variant
 
 The example [here](src/enum2.rs)
 
@@ -96,7 +96,7 @@ fn main() {
 }
 ```
 
-## Struct variant
+### Struct variant
 
 The example [here](src/enum3.rs)
 
