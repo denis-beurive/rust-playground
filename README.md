@@ -27,3 +27,4 @@ This repository contains notes about the Rust programming language.
 * [Enums](doc/enum.md)
 * [Match and guards](doc/match.md)
 * [Option](doc/option.md)
+* [String](doc/string.md)
