@@ -16,6 +16,30 @@ This repository contains notes about the Rust programming language.
 * Check that it compiles: `cargo check`
 * Compile a release: `cargo build --release`
 
+# Things to remember
+
+> You can modify a variable only when it was initialized.
+ 
+This is logical, isn't it ? 
+
+
+# Vocabulary
+
+Shadowing: a variable is redeclared.
+
+```rust
+    let v: i16 = 1;
+    println!("v = {}", v);
+    let v: i32 = 2; // Shadows the previous declaration.
+    println!("v = {}", v);
+```
+
+Inference: Rust finds out the type of a variable (from the context).
+
+
+
+
+
 # Notes
 
 * [Variables and references](doc/variables.md)
