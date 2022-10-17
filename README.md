@@ -60,3 +60,8 @@ The [list of all "copy types"](https://doc.rust-lang.org/std/marker/trait.Copy.h
 * [Match and guards](doc/match.md)
 * [Option](doc/option.md)
 * [String](doc/string.md)
+
+# Must read
+
+* [The slice type](https://doc.rust-lang.org/book/ch04-03-slices.html): don't assume that you can skip this document...
+
