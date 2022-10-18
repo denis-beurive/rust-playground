@@ -18,10 +18,11 @@ This repository contains notes about the Rust programming language.
 
 # Things to remember
 
-> You can modify a variable only when it was initialized.
- 
-This is logical, isn't it ? 
+> You can modify a variable only when it was initialized. 
+> _It is obvious... but it is also better to remember it._
 
+> Rust is all about static, compile time, analysis. _If Rust raises an error, 
+> you can prefix the description of the error by "at compile time."_
 
 # Vocabulary
 
