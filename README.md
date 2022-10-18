@@ -8,6 +8,8 @@ This repository contains notes about the Rust programming language.
 * [Installation and update notes for Linux](doc/installation-linux.md)
 * [IDE configuration](doc/ide.md)
 
+> Update the toolchain: `rustup update`
+
 # Cargo
 
 * Create a new project: `cargo new name_of_the_project`
@@ -15,6 +17,7 @@ This repository contains notes about the Rust programming language.
 * Run: `cargo run`
 * Check that it compiles: `cargo check`
 * Compile a release: `cargo build --release`
+* Clean temporary files: `cargo clean`
 
 # Things to remember
 
@@ -22,7 +25,7 @@ This repository contains notes about the Rust programming language.
 > _It is obvious... but it is also better to remember it._
 
 > Rust is all about static, compile time, analysis. _If Rust raises an error, 
-> you can prefix the description of the error by "at compile time."_
+> you can prefix the description of the error by "at compile time..."_
 
 # Vocabulary
 
@@ -60,6 +63,7 @@ The [list of all "copy types"](https://doc.rust-lang.org/std/marker/trait.Copy.h
 * [Enums](doc/enum.md)
 * [Match and guards](doc/match.md)
 * [Option](doc/option.md)
+* [What is str ?](doc/str.md)
 * [String](doc/string.md)
 
 # Must read
