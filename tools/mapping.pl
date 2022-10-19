@@ -124,6 +124,6 @@ if ($cli_address >= $data{&K_HEAP}->{&K_START} and $cli_address <= $data{&K_HEAP
 } elsif ($cli_address >= $data{&K_STACK}->{&K_START} and $cli_address <= $data{&K_STACK}->{&K_STOP}) {
     printf("0x%X is in the stack\n", $cli_address);
 } else {
-    printf("0x%X is neither in the head nor in the stack\n", $cli_address);
+    printf("0x%X is neither in the heap nor in the stack\n", $cli_address);
 }
 
