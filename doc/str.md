@@ -1,5 +1,7 @@
 # What is "str"
 
+## UTF-8: one byte long character 
+
 Let's consider the following code:
 
 ```
@@ -61,5 +63,38 @@ This experience tells us that a variable of type "str" is made of 2 fields:
   GDB: "_'str1.data_ptr' is a pointer to a value of type 'u8'_".
 * The field `length` that contains the number of characters in the slice.
 
+## UTF-8: three bytes long character
 
+Let's consider the following code:
+
+```
+  1	fn main() {
+  2	    let str1: &str = &"abc";
+  3	    println!("str1: {}", str1);
+  4	    let str1: &str = &"ᛨᛞᛝ";
+  5	    println!("str1: {}", str1);
+  6	}
+```
+
+Then fire up GDB and explore the binary:
+
+```
+$ gdb target/debug/variables
+...
+(gdb) b 5
+Breakpoint 1 at 0x79ce: file src/main.rs, line 5.
+(gdb) r
+Starting program: /home/denis/Documents/github/rust-playground/variables/target/debug/variables
+...
+str1: abc
+
+Breakpoint 1, variables::main () at src/main.rs:5
+5	    println!("str1: {}", str1);
+(gdb) p str1.data_ptr
+$1 = (*mut u8) 0x55555559100a
+(gdb) p str1.length
+$2 = 9
+```
+
+We can see that the length of the slice is 9 bytes (which represents 3 UTF-8 characters).
 

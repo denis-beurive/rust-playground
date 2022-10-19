@@ -16,8 +16,16 @@ This repository contains notes about the Rust programming language.
 * Compile: `cargo build`
 * Run: `cargo run`
 * Check that it compiles: `cargo check`
-* Compile a release: `cargo build --release`
 * Clean temporary files: `cargo clean`
+* Configuration file: see [this link](https://doc.rust-lang.org/cargo/reference/config.html#hierarchical-structure).
+  Under Linux, the default configuration file is: `$HOME/.cargo/config.toml` (which may not exist). 
+* Compile a release: `cargo build --release`
+* Compile for debugging: `cargo build --config "profile.dev.debug=true" --config "profile.dev.opt-level=0" --profile=dev` 
+  (see [--config](https://doc.rust-lang.org/cargo/reference/config.html#command-line-overrides) option and [profile override](https://doc.rust-lang.org/cargo/reference/config.html#profile))
+  
+# Debugging
+
+Instead of using `gdb`, you should use `rust-gdb`.
 
 # Things to remember
 
