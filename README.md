@@ -35,6 +35,12 @@ Instead of using `gdb`, you should use `rust-gdb`.
 > Rust is all about static, compile time, analysis. _If Rust raises an error, 
 > you can prefix the description of the error by "at compile time..."_
 
+> Whenever we assign _something_ (must be a reference) to a reference, we "borrow". 
+> A reference represents a borrow of some owned value.
+
+> Rust usually focuses on object value (i.e. the interesting part of the contents)
+> rather than object identity (memory addresses). See [this link](https://stackoverflow.com/questions/27852613/why-does-printing-a-pointer-print-the-same-thing-as-printing-the-dereferenced-po).
+
 # Vocabulary
 
 **Shadowing (a variable)**: a variable is redeclared.
@@ -59,6 +65,14 @@ The [list of all "copy types"](https://doc.rust-lang.org/std/marker/trait.Copy.h
 **Copy type**: A type that implements the Copy trait. See [the list](https://doc.rust-lang.org/std/marker/trait.Copy.html#implementors).
 
 **Borrow (a value)**: References allow you to refer to some value without taking ownership of it. With references we "borrow" the value of a variable. See [details](doc/ownership.md#references).
+
+```rust
+    let borrowed_string1: &str = "world";
+    let borrowed_string2: &str = "world";
+    // borrowed_string1 and borrowed_string2 reference the same data (at address 0x7ffd27113658).
+    println!("{:p}", &borrowed_string1); // -> 0x7ffd27113658
+    println!("{:p}", &borrowed_string2); // -> 0x7ffd27113658
+```
 
 # Notes
 
