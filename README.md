@@ -29,7 +29,7 @@ Instead of using `gdb`, you should use `rust-gdb`.
 
 # Things to remember
 
-> You can modify a variable only when it was initialized. 
+> You can modify a variable only when it was initialized (see [this link](https://stackoverflow.com/questions/53471996/why-does-the-rust-compiler-give-an-uninitialized-variable-error-when-initializin)). 
 > _It is obvious... but it is also better to remember it._
 
 > Rust is all about static, compile time, analysis. _If Rust raises an error, 
