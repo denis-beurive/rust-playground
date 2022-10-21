@@ -41,6 +41,11 @@ Instead of using `gdb`, you should use `rust-gdb`.
 > Rust usually focuses on object value (i.e. the interesting part of the contents)
 > rather than object identity (memory addresses). See [this link](https://stackoverflow.com/questions/27852613/why-does-printing-a-pointer-print-the-same-thing-as-printing-the-dereferenced-po).
 
+> In C, what we call a "type" is necessarily "something" that has a known length (at compile time). 
+> But this is not the case in Rust: in Rust a "type" is NOT necessarily "something" that has a known 
+> length (at compile time). Thus we are not talking about the same "thing" when we use the term "type." 
+> The Rust definition of "type" differs from the C one. This can be confusing. Ex: the Rust "`str`" type.
+
 # Vocabulary
 
 **Shadowing (a variable)**: a variable is redeclared.
@@ -54,7 +59,8 @@ Instead of using `gdb`, you should use `rust-gdb`.
 
 **Inference**: Rust finds out the type of a variable (from the context).
 
-**Ownership (of a value)**: A variable has ownership of a value.
+**Ownership (of a value)**: A variable has ownership of a value. Or a variable "owns" a value. Or, again:
+the value is "owned" by a variable.
 
 **Transfer (or "move") of ownership (of a value)**: The ownership of a value may be transferred from a variable to 
 another variable (if it cannot be implicitly copied). More [details](doc/ownership.md#ownership-movedtransferred-or-not-).
@@ -64,7 +70,8 @@ The [list of all "copy types"](https://doc.rust-lang.org/std/marker/trait.Copy.h
 
 **Copy type**: A type that implements the Copy trait. See [the list](https://doc.rust-lang.org/std/marker/trait.Copy.html#implementors).
 
-**Borrow (a value)**: References allow you to refer to some value without taking ownership of it. With references we "borrow" the value of a variable. See [details](doc/ownership.md#references).
+**Borrow (a value)**: References allow you to refer to some value without taking ownership of it. With references we 
+"borrow" the value of a variable. See [details](doc/ownership.md#references).
 
 ```rust
     let borrowed_string1: &str = "world";
@@ -73,6 +80,9 @@ The [list of all "copy types"](https://doc.rust-lang.org/std/marker/trait.Copy.h
     println!("{:p}", &borrowed_string1); // -> 0x7ffd27113658
     println!("{:p}", &borrowed_string2); // -> 0x7ffd27113658
 ```
+
+* variables: own values.
+* references: borrow values.
 
 # Notes
 
@@ -87,6 +97,10 @@ The [list of all "copy types"](https://doc.rust-lang.org/std/marker/trait.Copy.h
 * [Option](doc/option.md)
 * [What is str ?](doc/str.md)
 * [String](doc/string.md)
+
+# Why (does the compiler throw this error message) ?
+
+* [The Add trait for string](doc/why/add.md)
 
 # Must read
 
