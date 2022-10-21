@@ -1,32 +1,85 @@
 # String
 
-The type "String" does not implement the Copy trait.
+The type "String":
+* does not implement the Copy trait. Thus "=" implies a move.
+* implements the Clone trait.
+
+## How to concatenate strings
 
 ```rust
+use std::ops::Add;
+
+// --------------------------------------------------------------------------
+// How to copy a string
+// --------------------------------------------------------------------------
+
+fn concat_string1(s1: &String, s2: &String) -> String {
+    return (*s1).clone().add((*s2).as_str());
+}
+
+fn concat_string2(s1: &String, s2: &String) -> String {
+    // Method "to_owned()" is identical to the method "clone".
+    return s1.to_owned().add(s2.as_str());
+}
+
+fn concat_string3(s1: &String, s2: &String) -> String {
+    // If you look at the implementation of the method "&str::to_string()", you can see that it is
+    // equivalent to "String::from(self)". Thus: "concat_string4(...)".
+    return s1.as_str().to_string().add(s2.as_str());
+}
+
+fn concat_string4(s1: &String, s2: &String) -> String {
+    // Please read the comment for "concat_string3(...)".
+    return String::from(s1.as_str()).add(s2.as_str());
+}
+
+fn concat_string5(s1: &String, s2: &String) -> String {
+    return String::from(s1).add(s2.as_str());
+}
+
+// --------------------------------------------------------------------------
+// Using &str instead of &String
+// --------------------------------------------------------------------------
+
+fn concat_string10(s1: &str, s2: &str) -> String {
+    return s1.to_string().add(s2);
+}
+
+fn concat_string20(s1: &str, s2: &str) -> String {
+    // Method "to_owned()" is identical to the method "clone".
+    return s1.to_owned().add(s2);
+}
+
+fn concat_string30(s1: &str, s2: &str) -> String {
+    // Please read the comment for "concat_string3(...)".
+    return String::from(s1).add(s2);
+}
+
 fn main() {
+    let s1 = String::from("a");
+    let s2 = String::from("b");
 
-    // Since the type String does not implement the Copy trait, the given value
-    // is moved (or transferred) from its original variable to the argument variable.
-    // Thus, once passed to the function, the original variable could not be used anymore.
+    let s3 = concat_string1(&s1, &s2);
+    println!("{} + {} = {}", s1, s2, s3);
+    let s3 = concat_string2(&s1, &s2);
+    println!("{} + {} = {}", s1, s2, s3);
+    let s3 = concat_string3(&s1, &s2);
+    println!("{} + {} = {}", s1, s2, s3);
+    let s3 = concat_string4(&s1, &s2);
+    println!("{} + {} = {}", s1, s2, s3);
+    let s3 = concat_string5(&s1, &s2);
+    println!("{} + {} = {}", s1, s2, s3);
 
-    fn double(s: String) -> String {
-        // We clone "s". Thus "s" is not moved.
-        let r: String = s.clone();
-        return r.add(s.add(" x 2").as_str());
-    }
-
-    let s1: String = String::from("abcd");
-    // The value of "s1" is moved (or transferred) to the argument variable.
-    let s2 = double(s1);
-    println!("s2 = {}", s2); // s2 = abcdabcd x 2
-    
-    // Since "s1" is cloned, that's the cloned value that is transferred
-    // to the argument variable. Hence, "s1" can still be used.
-    let s1: String = String::from("abcd");
-    let s2 = double(s1.clone());
-    println!("s1 = {}\ns2 = {}", s1, s2); // s2 = abcdabcd x 2
+    let s3 = concat_string10(&s1, &s2);
+    println!("{} + {} = {}", s1, s2, s3);
+    let s3 = concat_string20(&s1, &s2);
+    println!("{} + {} = {}", s1, s2, s3);
+     let s3 = concat_string30(&s1, &s2);
+    println!("{} + {} = {}", s1, s2, s3);
 }
 ```
+
+## Looping over characters 
 
 ```rust
 use std::ops::Add;

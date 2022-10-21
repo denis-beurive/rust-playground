@@ -84,6 +84,10 @@ The [list of all "copy types"](https://doc.rust-lang.org/std/marker/trait.Copy.h
 * variables: own values.
 * references: borrow values.
 
+**Fat pointer**: this is a pointer with extra information. For example, "&str" is a fat pointer. 
+It contains a pointer to the memory location that is the start of the string, and it also contains 
+the length of the string.
+
 # Notes
 
 * [Variables and references](doc/variables.md)
