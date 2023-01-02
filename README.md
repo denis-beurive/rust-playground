@@ -101,6 +101,7 @@ the length of the string.
 * [Option](doc/option.md)
 * [What is str ?](doc/str.md)
 * [String](doc/string.md)
+* [Modules](modules/README.md)
 
 # Why (does the compiler throw this error message) ?
 
