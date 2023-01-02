@@ -1,4 +1,4 @@
-# Rust packages
+# Rust modules
 
 * "`main.rs`" does not declare any modules with the keyword "`mod`", it only imports them
   with the keyword "`use`" ([source](https://users.rust-lang.org/t/main-rs-and-lib-rs-at-same-level/42499/2)).
