@@ -46,6 +46,8 @@ Instead of using `gdb`, you should use `rust-gdb`.
 > length (at compile time). Thus we are not talking about the same "thing" when we use the term "type." 
 > The Rust definition of "type" differs from the C one. This can be confusing. Ex: the Rust "`str`" type.
 
+> Unlike the practices seen in other programming languages, modules definitions don't _necessarily_ rely on file organisation. "`mod module_name`" **creates** a module name "`module_name`": the module may be defined _inline_ ("`mod module_name { /* inline definition here */ }`") or through external files ("`mod module_name;`"). If "`some_file.rs`" has mod declarations in it, then the contents of the module files would be inserted in places where "mod" declarations in the crate file are found, before running the compiler over it ([source](https://doc.rust-lang.org/rust-by-example/crates.html)).
+
 # Vocabulary
 
 **Shadowing (a variable)**: a variable is redeclared.
@@ -87,7 +89,6 @@ The [list of all "copy types"](https://doc.rust-lang.org/std/marker/trait.Copy.h
 **Fat pointer**: this is a pointer with extra information. For example, "&str" is a fat pointer. 
 It contains a pointer to the memory location that is the start of the string, and it also contains the length of the string.
 
-**Modules**: unlike the practices seen in other programming languages, modules definitions don't _necessarily_ rely on file organisation. "`mod module_name`" **creates** a module name "`module_name`": the module may be defined _inline_ ("`mod module_name { /* inline definition here */ }`") or through external files ("`mod module_name;`"). If "`some_file.rs`" has mod declarations in it, then the contents of the module files would be inserted in places where "mod" declarations in the crate file are found, before running the compiler over it ([source](https://doc.rust-lang.org/rust-by-example/crates.html)).
 
 # Notes
 
