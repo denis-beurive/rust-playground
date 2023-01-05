@@ -104,6 +104,7 @@ It contains a pointer to the memory location that is the start of the string, an
 * [What is str ?](doc/str.md)
 * [String](doc/string.md)
 * [Modules](modules/README.md)
+* [Arrays, slices, vectors of "boxed traits"](doc/boxed-traits.md)
 
 # Why (does the compiler throw this error message) ?
 
