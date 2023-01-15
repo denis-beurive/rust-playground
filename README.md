@@ -103,6 +103,7 @@ It contains a pointer to the memory location that is the start of the string, an
 * [Option](doc/option.md)
 * [What is str ?](doc/str.md)
 * [String](doc/string.md)
+* [String and str allocation](doc/string-str-alloc.md)
 * [Modules](modules/README.md)
 * [Arrays, slices, vectors of "boxed traits"](doc/boxed-traits.md)
 
