@@ -1,35 +1,67 @@
+use std::fmt;
 
-
-/// Return the longest string, or None if the strings have the same length.
-/// Why do we need to specify lifetimes here?
-/// The returned reference may be one of the references passed as parameters to the function.
-/// In other words, the value referenced by the returned reference is correlated with the values
-/// referenced by the function's parameters.
+/// Define a structure that implements the "Display" trait (so it can be directly represented
+/// as text).
 ///
-/// - If the returned value is the reference "string1", then the lifetime of the returned value is,
-///   obviously, the lifetime of "string1".
-/// - If the returned value is the reference "string2", then the lifetime of the returned value is,
-///   obviously, the lifetime of "string2".
-/// - If the returned value is None, then the lifetime of the returned value is not associated with
-///   the lifetimes of any parameters.
+/// For every lifetime "'a", define MyString to contain a reference "value": &'a str.
+/// So MyString is "generic" and can store a reference with any lifetime.
+/// Ref: https://stackoverflow.com/questions/39355984/what-does-the-first-explicit-lifetime-specifier-on-an-impl-mean
+
+struct MyString<'a> {
+    name: String,
+    value: &'a str
+}
+
+/// For every lifetime "'a", define methods for the type MyString<'a>.
+/// Rel: https://stackoverflow.com/questions/39355984/what-does-the-first-explicit-lifetime-specifier-on-an-impl-mean
+
+impl<'a> fmt::Display for MyString<'a> {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        let mut str = "";
+        fmt.write_str(self.name.as_str())?;
+        fmt.write_str(":")?;
+        fmt.write_str(self.value)?;
+        Ok(())
+    }
+}
+
+/// Return an instance of MyString that identified the longest string, or None if the strings have the same length.
+///
+/// The returned value may depend on one of the parameters' values passed as parameters to the function.
+///
+/// - If the longest string is the one referenced by "string1", then the returned value depends on
+///   the value referenced by "string1". Thus, the returned value is "valid" as long as the value
+///   referenced by "string1" does not change.
+///   <=> The lifetime of the returned value depends on the lifetimes of the value referenced by
+///   "string1".
+/// - If the longest string is the one referenced by "string2", then the returned value depends on
+///   the value referenced by "string2". Thus, the returned value is "valid" as long as the value
+///   referenced by "string2" does not change.
+///   <=> The lifetime of the returned value depends on the lifetimes of the value referenced by
+///   "string2".
+/// - If the returned value is None, then, obviously, it does not depend on the values referenced by
+///   the references passed as parameters to the function.
+///   <=> The lifetime of the returned value does not depend on the lifetimes of the values
+///   referenced by the references passed as parameters to the function.
 ///
 /// But, at compile time, it is not possible to predict whether one string is longer than the other,
-/// and, in this case, which string is the longest. All we can say is that the value referenced by
-/// the returned reference is correlated with the values referenced by the function's parameters.
+/// and, in this case, which string is the longest. All we can say is that the returned value may
+/// depend on one of the parameters' values passed as parameters to the function.
+/// <=> All we can say is that the lifetime of the returned value may depend on the lifetimes of
+/// the parameters' values passed as parameters to the function.
 ///
 /// Please note that "string1" and "string2" are not mutable references. Thus, they reference
-/// immutable variables (which values won't change in the future). This means that the value
-/// referenced by the returned reference is not likely to change.
-///
-/// => The IMMUTABLE value referenced by the returned reference is correlated with the IMMUTABLE
-/// values referenced by the function's parameters.
+/// immutable variables (which values won't change in the future). This means that the value of
+/// the field "value" (of the returned reference) is not likely to change.
+/// <=> The IMMUTABLE returned value may depend on the IMMUTABLE values referenced by the function's
+/// parameters.
 
-fn longest_by_str<'a>(string1: &'a str, string2: &'a str) -> Option<&'a str> {
+fn longest_by_str<'a>(string1: &'a str, string2: &'a str) -> Option<MyString<'a>> {
     if string1.len() > string2.len() {
-        return Some(string1);
+        return Some(MyString { name: String::from("string1"), value: string1 });
     }
     if string2.len() > string1.len() {
-        return Some(string2);
+        return Some(MyString { name: String::from("string2"), value: string2 });
     }
     return None;
 }
@@ -37,24 +69,24 @@ fn longest_by_str<'a>(string1: &'a str, string2: &'a str) -> Option<&'a str> {
 fn use_longest_by_str() {
     let str1: &str = "This is a longer string";
     let str2: &str = "This is a short string";
-    let longest: Option<&str> = longest_by_str(str1, str2);
+    let longest: Option<MyString> = longest_by_str(str1, str2);
     println!("str1: {}\nstr2: {}", str1, str2);
     // The line below creates a new variable "str1".
     let str1: &str = "new str1";
     println!("str1: {}\nstr2: {}", str1, str2);
     if longest.is_some() {
-        println!("The longest string is \"{}\"", longest.unwrap()); // => The longest string is "This is a longer string"
+        println!("The longest string is \"{}\"", longest.unwrap());
     }
 }
 
 /// As well as for the function "longest_by_str", the value referenced by the returned reference
-/// is correlated to the values references by the function's parameters.
+/// may depend on the values references by the function's parameters.
 ///
 /// However, in contrast to the function "longest_by_str", in this case, all the references
 /// involved are mutable.
 ///
-/// => The MUTABLE value referenced by the returned reference is correlated with the MUTABLE
-/// values referenced by the function's parameters.
+/// => The MUTABLE value referenced by the returned reference may depend on the MUTABLE values
+/// referenced by the function's parameters.
 ///
 /// This has consequences on the code that follows the call to the function. The lifetime of
 /// the value referenced by the returned reference is limited to the lifetimes of the (mutable)
@@ -89,20 +121,23 @@ fn use_bigger_by_mut_u8() {
     // }
 }
 
+
 /// Return the longest string, or None if the strings have the same length.
-/// Why don't we need to specify lifetimes here?
-/// The function's parameters' values are "moved" from the "caller context" to the "function context".
-/// Therefore, these (parameters') values are not accessible from the caller context anymore.
-/// It means that, once passed to the function, these values cannot change (or be deleted)
-/// "outside of the function".
-/// The returned value is the result of a "move".
+///
+/// Please note:
+/// - The function's parameters' values are "moved" from the "caller context" to the "function
+///   context". Therefore, these (parameters') values are not accessible from the caller context
+///   anymore. It means that, once passed to the function, these values cannot change "outside of
+///   the function" (and neither can they change within the function because they are declared as
+///   immutable).
+/// - The returned value is the result of a "move".
 
 fn longest_by_string(string1: String, string2: String) -> Option<String> {
     if string1.len() > string2.len() {
-        return Some(string1);
+        return Some(string1); // move
     }
     if string2.len() > string1.len() {
-        return Some(string2);
+        return Some(string2); // move
     }
     return None;
 }
@@ -110,37 +145,19 @@ fn longest_by_string(string1: String, string2: String) -> Option<String> {
 fn use_longest_by_string() {
     let mut v1: String = String::from("v1");
     let v2: String = String::from("v2");
-    let result: Option<String> = longest_by_string(v1, v2);
+    let result: Option<String> = longest_by_string(v1, v2); // v1 and v2 move
+    // Below this line you cannot access the values of "v1" and "v2" since these values were
+    // moved to the function's context.
     if result.is_some() {
         println!("The longest string is \"{}\"\n", result.clone().unwrap());
     }
+    // The value of "v1" can change (since "v1" is mutable). However, the value (of "v1") that was
+    // moved to the function is not affected by the following assignment.
     v1 = String::from("other v1");
     if result.is_some() {
         println!("The longest string is \"{}\"\n", result.unwrap());
     }
 }
-
-/// Return the longest string, or None if the strings have the same length.
-/// Why don't we need to specify lifetimes here?
-/// The function's parameters' values are "moved" from the "caller context" to the "function context".
-/// Therefore, these (parameters') values are not accessible from the caller context anymore.
-/// It means that:
-/// (1) once passed to the function, these values cannot change (or be deleted) "outside of
-///     the function".
-/// (2) once the function execution terminates, the "moved" values (form string1 and string2)
-///     don't "exist" anymore.
-/// The returned value is the result of a "borrow".
-/// But what if the (returned) value is borrowed from a value that doesn't exist anymore ?
-
-// fn longest_by_string(string1: String, string2: String) -> Option<&String> {
-//     if string1.len() > string2.len() {
-//         return Some(&string1);
-//     }
-//     if string2.len() > string1.len() {
-//         return Some(&string2);
-//     }
-//     return None;
-// }
 
 fn main() {
     use_longest_by_str();
