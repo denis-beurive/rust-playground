@@ -41,12 +41,9 @@ Instead of using `gdb`, you should use `rust-gdb`.
 > Rust usually focuses on object value (i.e. the interesting part of the contents)
 > rather than object identity (memory addresses). See [this link](https://stackoverflow.com/questions/27852613/why-does-printing-a-pointer-print-the-same-thing-as-printing-the-dereferenced-po).
 
-> In C, what we call a "type" is necessarily "something" that has a known length (at compile time). 
-> But this is not the case in Rust: in Rust a "type" is NOT necessarily "something" that has a known 
-> length (at compile time). Thus we are not talking about the same "thing" when we use the term "type." 
-> The Rust definition of "type" differs from the C one. This can be confusing. Ex: the Rust "`str`" type.
-
 > Unlike the practices seen in other programming languages, modules definitions don't _necessarily_ rely on file organisation. "`mod module_name`" **creates** a module name "`module_name`": the module may be defined _inline_ ("`mod module_name { /* inline definition here */ }`") or through external files ("`mod module_name;`"). If "`some_file.rs`" has mod declarations in it, then the contents of the module files would be inserted in places where "mod" declarations in the crate file are found, before running the compiler over it ([source](https://doc.rust-lang.org/rust-by-example/crates.html)).
+
+> `stuff<thing1, thing2...>` (a `thing` may be a _type_ or a _lifetine_) reads: "`stuff` is _generic_. For every... `stuff` defines... Example: [here](doc/lifetime.md).
 
 # Vocabulary
 
