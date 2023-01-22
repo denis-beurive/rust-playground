@@ -60,7 +60,7 @@ Instead of using `gdb`, you should use `rust-gdb`.
 > **lifetime**:
 >
 > * The lifetime of a borrow (`&value`) cannot outlive the borrowed value's (`value`) scope [thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6).
-> * But the lifetime of a borrow (`&value`) can be greater than the scope of the borrow itself [thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6).
+> * But the lifetime of a borrow (`&value`) can be greater than the scope of the borrow (`let the_borrow = &value`) itself [thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6). Please note that, in this sentence, the term "borrow" designates "_**THE** borrow of a variable_," and "_**A** borrow of a variable_."
 
 > Rust usually focuses on object value (i.e. the interesting part of the contents)
 > rather than object identity (memory addresses). See [this link](https://stackoverflow.com/questions/27852613/why-does-printing-a-pointer-print-the-same-thing-as-printing-the-dereferenced-po).
