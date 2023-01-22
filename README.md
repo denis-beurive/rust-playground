@@ -59,8 +59,30 @@ Instead of using `gdb`, you should use `rust-gdb`.
 
 > **lifetime**:
 >
-> * The lifetime of a borrow (`&value`) cannot outlive the borrowed value's (`value`) scope ([thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6)).
-> * But the lifetime of a borrow (`&value`) can be greater than the scope of the borrow (`let the_borrow = &value`) itself ([thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6)). Please note that, in this sentence, the term "borrow" designates "_**THE** borrow of a variable_," and "_**A** borrow of a variable_."
+> The lifetime of a borrow (`let a_borrow = &value`) cannot outlive the borrowed value's (`value`) scope ([thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6)).
+>
+> ```rust
+> // Does not compile
+> {
+>     let local = String::new(); // the borrowed value.
+>     let a_borrow: &'static String = &local;
+> } // local drops here
+> ```
+>
+> But the lifetime of a borrow (`&value`) can be greater than the scope of the borrow (`let the_borrow = &value`) itself ([thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6)). Please note that, in this sentence, the term "borrow" designates "_**THE** borrow of a variable_," and "_**A** borrow of a variable_."
+>
+> ```rust
+> fn example<'a>(string: &'a String) -> &'a String {
+>    {
+>       // "string" is a borrow (of some string passed as a parameter to the function).
+>       // "_local" is (also) a "borrow".
+>       let _local: &'a str = string;
+>    } // the "scope" of (the "borrow) "_local" ends here.
+>      // but the lifetime of the "borrow" "string" does not end here.
+>
+>    return string;
+> }
+> ```rust
 
 > Rust usually focuses on object value (i.e. the interesting part of the contents)
 > rather than object identity (memory addresses). See [this link](https://stackoverflow.com/questions/27852613/why-does-printing-a-pointer-print-the-same-thing-as-printing-the-dereferenced-po).

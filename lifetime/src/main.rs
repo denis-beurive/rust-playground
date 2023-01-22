@@ -197,6 +197,18 @@ fn main() {
     // let s: String = String::from("abc");
     // let borrowed: &String = &s;
 
+    fn example<'a>(string: &'a String) -> &'a String {
+        {
+            // "string" is a borrow (of some string passed as a parameter to the function).
+            // "_local" is (also) a "borrow".
+            let _local: &'a str = string;
+        } // the "scope" of (the "borrow) "_local" ends here.
+          // but the lifetime of the "borrow" "string" does not end here.
+
+        return string;
+    }
+
+
     fn function(param: &u8) { println!("param = {}", param) }
     let value: u8 = 1; let ref_value: &u8 = &value; // "&ref_value" is a borrow of "value."
     // The variable "borrower" is the borrow of the variable "value."
