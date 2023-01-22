@@ -56,6 +56,8 @@ Instead of using `gdb`, you should use `rust-gdb`.
 > // The function "the_borrower" borrows the value of the variable "value."
 > the_borrower(&value); // The borrow occurs here.
 > ```
+>
+> **Be careful when you read the term "borrow" as its signification depends on the context**.
 
 > **lifetime**:
 >
