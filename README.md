@@ -37,19 +37,30 @@ Instead of using `gdb`, you should use `rust-gdb`.
 
 > **borrow**:
 >
-> Whenever we assign _something_ (must be a reference) to a reference, we "borrow". 
-> A reference represents _a borrow_ of some owned value. Please note that the term "borrow" may be a verb **or a noun** (
-> see ["borrow definition"](https://www.dictionary.com/browse/borrow)).
+> Whenever we assign _something_ (must be a reference) to a reference, we "borrow". A reference represents _a borrow_ of some owned value.
+>
+> The term "borrow" may designate one of these things :
+>
+> * (a) the action (to borrow something).
+> * (b) **THE** reference to a variable (`&value`).
+> * (c) **A** variable that contains **THE** reference to a variable (`let the_borrow = &value`). _You may have more than one borrow to a variable_.
+>
+> Please note that the term "borrow" may be a verb **or a noun** (see ["borrow definition"](https://www.dictionary.com/browse/borrow)).
 >
 > ```rust
-> fn function(param: &u8) { println!("param = {}", param) }
 > let value: u8 = 1;
-> // The variable "borrower" is the borrow (noun) of the variable "value."
-> let borrower: &u8 = &value; // The borrow (noun) occurs here.
+> // "&value" is **THE** borrow of the variable "value."
+> // "a_borrow" is **A** borrow of the variable "value."
+> let a_borrow: &u8 = &value; // The borrow occurs here.
 >
-> // The function borrows (verb) the value of the variable "value."
-> function(&value); // The borrow occurs here.
+> // The function "the_borrower" borrows the value of the variable "value."
+> the_borrower(&value); // The borrow occurs here.
 > ```
+
+> **lifetime**:
+>
+> * The lifetime of a borrow (`&value`) cannot outlive the borrowed value's (`value`) scope [thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6).
+> * But the lifetime of a borrow (`&value`) can be greater than the scope of the borrow itself [thanks to Quinedot](https://users.rust-lang.org/t/lifetime-and-generic-in-plain-english/87877/6).
 
 > Rust usually focuses on object value (i.e. the interesting part of the contents)
 > rather than object identity (memory addresses). See [this link](https://stackoverflow.com/questions/27852613/why-does-printing-a-pointer-print-the-same-thing-as-printing-the-dereferenced-po).

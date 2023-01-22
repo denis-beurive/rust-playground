@@ -198,12 +198,12 @@ fn main() {
     // let borrowed: &String = &s;
 
     fn function(param: &u8) { println!("param = {}", param) }
-    let value: u8 = 1;
+    let value: u8 = 1; let ref_value: &u8 = &value; // "&ref_value" is a borrow of "value."
     // The variable "borrower" is the borrow of the variable "value."
-    let borrower: &u8 = &value; // The borrow occurs here.
-
-    // The function borrows the value of the variable "value".
-    function(&value); // The borrow occurs here.
+    // let borrower: &u8 = &value; // The borrow occurs here.
+    //
+    // // The function borrows the value of the variable "value".
+    // function(&value); // The borrow occurs here.
 
     // use_example();
     // use_longest_by_str();
