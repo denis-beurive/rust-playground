@@ -35,15 +35,28 @@ Instead of using `gdb`, you should use `rust-gdb`.
 > Rust is all about static, compile time, analysis. _If Rust raises an error, 
 > you can prefix the description of the error by "at compile time..."_
 
+> **borrow**:
+>
 > Whenever we assign _something_ (must be a reference) to a reference, we "borrow". 
-> A reference represents a borrow of some owned value.
+> A reference represents _a borrow_ of some owned value. Please note that the term "borrow" may be a verb **or a noun** (
+> see ["borrow definition"](https://www.dictionary.com/browse/borrow)).
+>
+> ```rust
+> fn function(param: &u8) { println!("param = {}", param) }
+> let value: u8 = 1;
+> // The variable "borrower" is the borrow (noun) of the variable "value."
+> let borrower: &u8 = &value; // The borrow (noun) occurs here.
+>
+> // The function borrows (verb) the value of the variable "value."
+> function(&value); // The borrow occurs here.
+> ```
 
 > Rust usually focuses on object value (i.e. the interesting part of the contents)
 > rather than object identity (memory addresses). See [this link](https://stackoverflow.com/questions/27852613/why-does-printing-a-pointer-print-the-same-thing-as-printing-the-dereferenced-po).
 
 > Unlike the practices seen in other programming languages, modules definitions don't _necessarily_ rely on file organisation. "`mod module_name`" **creates** a module name "`module_name`": the module may be defined _inline_ ("`mod module_name { /* inline definition here */ }`") or through external files ("`mod module_name;`"). If "`some_file.rs`" has mod declarations in it, then the contents of the module files would be inserted in places where "mod" declarations in the crate file are found, before running the compiler over it ([source](https://doc.rust-lang.org/rust-by-example/crates.html)).
 
-> `stuff<thing1, thing2...>` (a `thing` may be a _type_ or a _lifetine_) reads: "`stuff` is _generic_. For every... define a (_type_, _function_...) `stuff`... Example: [here](doc/lifetime.md).
+
 
 # Vocabulary
 

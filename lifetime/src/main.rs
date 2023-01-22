@@ -1,5 +1,39 @@
 use std::fmt;
 
+
+
+fn example1() {
+    let string1 = String::from("string1");
+    {
+        let local1: &String = &string1;
+        println!("local1 = {}", *local1);
+    }
+    println!("string11 = {}", string1);
+}
+
+
+/// The lifetime of a borrow can be greater than the scope of the borrowing itself.
+fn example<'a>(string: &'a String) -> &'a String {
+    {
+        let borrow: &'a String = string;
+        println!("borrow = {}", borrow);
+    }
+
+
+
+
+
+    string
+}
+
+fn use_example() {
+    let local_string: String = String::from("my_string");
+    let local_result: &String = example(&local_string);
+    println!("local_string = {}", local_string);
+    println!("local_result = {}", local_result);
+}
+
+
 /// Define a structure that implements the "Display" trait (so it can be directly represented
 /// as text).
 ///
@@ -160,7 +194,19 @@ fn use_longest_by_string() {
 }
 
 fn main() {
-    use_longest_by_str();
-    use_bigger_by_mut_u8();
-    use_longest_by_string();
+    // let s: String = String::from("abc");
+    // let borrowed: &String = &s;
+
+    fn function(param: &u8) { println!("param = {}", param) }
+    let value: u8 = 1;
+    // The variable "borrower" is the borrow of the variable "value."
+    let borrower: &u8 = &value; // The borrow occurs here.
+
+    // The function borrows the value of the variable "value".
+    function(&value); // The borrow occurs here.
+
+    // use_example();
+    // use_longest_by_str();
+    // use_bigger_by_mut_u8();
+    // use_longest_by_string();
 }
