@@ -111,10 +111,9 @@ while (<$mapping_fd>) {
     }
 }
 
-
-printf("HEAP:  [0x%X, 0x%X]\n", $data{&K_HEAP}->{&K_START}, $data{&K_HEAP}->{&K_STOP});
+printf("HEAP:  [0x%X, 0x%X]\n", $data{&K_HEAP}->{&K_START}, $data{&K_HEAP}->{&K_STOP}) if (exists $data{&K_HEAP});
 printf("STACK: [0x%X, 0x%X]\n\n", $data{&K_STACK}->{&K_START}, $data{&K_STACK}->{&K_STOP});
-printf("Search HEAP:  find 0x%X, 0x%X, \"expr\"\n", $data{&K_HEAP}->{&K_START}, $data{&K_HEAP}->{&K_STOP});
+printf("Search HEAP:  find 0x%X, 0x%X, \"expr\"\n", $data{&K_HEAP}->{&K_START}, $data{&K_HEAP}->{&K_STOP})  if (exists $data{&K_HEAP});
 printf("Search STACK: find 0x%X, 0x%X, \"expr\"\n\n", $data{&K_STACK}->{&K_START}, $data{&K_STACK}->{&K_STOP});
 exit(0) unless(defined $cli_address);
 
